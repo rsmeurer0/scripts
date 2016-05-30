@@ -1,0 +1,7 @@
+#!/bin/bash
+#
+#
+#
+
+
+grep -rnw $1 -i -E -e $2;
