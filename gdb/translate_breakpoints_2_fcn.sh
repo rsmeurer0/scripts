@@ -5,12 +5,15 @@
 
 GDB="$1"
 DICT="$2"
+ADDR_COL=3
 
 while read line; do
     if [[ "$line" == *"??"* ]] ; then
-       echo "$line" | cut -d " " -f 3 >> hit_breakpoints
+       echo "$line" | cut -d " " -f $ADDR_COL >> hit_breakpoints
     fi
 done < $GDB
+
+#sed -i '$ d' hit_breakpoints # Used to deal with last line in file
 
 while read address; do 
     while read line; do

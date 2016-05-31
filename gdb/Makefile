@@ -1,4 +1,8 @@
 clean:
-	rm vmlinux*
-	rm selected*
-	rm objdump_list
+	-rm vmlinux*
+	-rm list*
+	-rm selected*
+	-rm kernel_dump
+	-rm hit*
+	-rm ../img/gdb.txt
+

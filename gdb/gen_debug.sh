@@ -1,8 +1,9 @@
 #!/bin/bash
+# Generates the files used for debugging the kernel 
+# The last argument is optional - if set to yes disables the breakpoints when
+# they are hit
 #
-#
-#
-# Usager: 
+# Usage: ./gen_debug vmlinux functions_of_interest.txt (yes) 
 
 FILE="$1" # Target ELF, in our case is vmlinux
 LIST="$2" # functions_of_interest.txt - Must be the file with this exact name
