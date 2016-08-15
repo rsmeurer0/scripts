@@ -3,5 +3,5 @@
 #
 #
 
-ctags -R -exclude=tools/testing/* .
+ctags -R --exclude=tools/testing/* .
 
