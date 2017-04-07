@@ -1,22 +1,23 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
-import sys, getopt
+import sys
+import getopt
 import csv
 import json
 
-#Get Command Line Arguments
+
 def main(argv):
     input_file = ''
     output_file = ''
     format = ''
     try:
-        opts, args = getopt.getopt(argv,"hi:o:f:",["ifile=","ofile=","format="])
+        opts, args = getopt.getopt(argv, "hi:o:f:", ["ifile=", "ofile=", "format="])
     except getopt.GetoptError:
-        print 'csv_json.py -i <path to inputfile> -o <path to outputfile> -f <dump/pretty>'
+        print ('csv_json.py -i <path to inputfile> -o <path to outputfile> -f <dump/pretty>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print 'csv_json.py -i <path to inputfile> -o <path to outputfile> -f <dump/pretty>'
+            print ('csv_json.py -i <path to inputfile> -o <path to outputfile> -f <dump/pretty>')
             sys.exit()
         elif opt in ("-i", "--ifile"):
             input_file = arg
@@ -25,6 +26,7 @@ def main(argv):
         elif opt in ("-f", "--format"):
             format = arg
     read_csv(input_file, output_file, format)
+
 
 #Read CSV File
 def read_csv(file, json_file, format):

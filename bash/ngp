@@ -1,0 +1,42 @@
+#!/bin/bash
+function ngp-connect() {
+    if [ "$#" -eq 0 ] ; then
+        NGP_IP=10.10.92.63
+        SSH_PORT=4022
+        NGP_PW='KhompS057852Y2015B20R00T02RootPassword'
+    else
+        NGP_IP="$1" 
+        SSH_PORT=4022
+        NGP_PW='KhompS057852Y2015B20R00T02RootPassword'
+    fi
+    sshpass -p $NGP_PW ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=no root@$NGP_IP -p $SSH_PORT
+}
+
+function ngp-connect-first() {
+    if [ "$#" -eq 0 ] ; then
+        NGP_IP=10.10.92.63
+        SSH_PORT=4022
+        NGP_PW='KhompS057852Y2015B20R00T02RootPassword'
+    else
+        NGP_IP="$1" 
+        SSH_PORT=4022
+        NGP_PW='KhompS057852Y2015B20R00T02RootPassword'
+    fi
+    ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -oStrictHostKeyChecking=no root@$NGP_IP -p $SSH_PORT
+}
+function ngp-cp-to() {
+    if [ "$#" -eq 2 ] ; then
+        NGP_IP=10.10.92.63
+        SSH_PORT=4022
+        NGP_PW='KhompS057852Y2015B20R00T02RootPassword'
+        FILE="$1"
+        TO_PATH="$2"
+    else
+        NGP_IP="$1" 
+        SSH_PORT=4022
+        NGP_PW='KhompS057852Y2015B20R00T02RootPassword'
+        FILE="$2"
+        TO_PATH="$3"
+    fi
+    sshpass -p $NGP_PW scp -P $SSH_PORT -oKexAlgorithms=+diffie-hellman-group1-sha1 $FILE root@$NGP_IP:$TO_PATH
+}
