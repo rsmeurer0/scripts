@@ -25,6 +25,7 @@ import time
 from datetime import datetime
 from datetime import date
 import calendar
+import math
 
 
 class bcolors:
@@ -92,9 +93,9 @@ def get_pause_intervals(time_list):
     pause_intervals = []
     time_stamps = len(time_list)
     time_list = turn_into_datetime(time_list)
-    if time_stamps < 2:
+    if time_stamps <=2:
         return pause_intervals
-    pauses = int(time_stamps/2)
+    pauses = math.ceil(time_stamps/2)
     for i in range(0, pauses, 2):
         pause_intervals.append((time_list[i+2] - time_list[i+1]).seconds/60)
 
@@ -188,7 +189,7 @@ def get_time_list(time_table, date_of_interest):
                 table_list = table_list.split(" ")
                 table_list.pop(0)
                 for item in table_list:
-                    if item == "Horas":
+                    if item == "Horas" or item == "Feriado:":
                         break
                     time_list.append(item.replace(",",""))
             else:
