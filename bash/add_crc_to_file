@@ -1,0 +1,38 @@
+#!/usr/bin/python3
+
+import sys
+import binascii
+
+
+def crc32(buf):
+    """
+    Generates the CRC32 for a given buffer
+
+    :param buf: Bytes to be used when generating the checksum.
+    :type buf: bytes
+    :return: 4 bytes Big endian of the generated crc
+    :rtype: bytes
+    """
+    return binascii.crc32(buf).to_bytes(4, byteorder='big', signed=False)
+
+
+def add_crc32_to_file(path):
+    """
+    Generates the crc32 of the given file and appends to the end of it.
+
+    :param path: Valid file path.
+    :type path: str
+    """
+    with open(path, 'rb+') as file:
+        buf = file.read()
+        print("CALCULATED CRC IS:", crc32(buf))
+        file.write(crc32(buf))
+
+
+if __name__ == "__main__":
+    if len(sys.argv) -1 < 1:
+        print("Wrong args")
+        sys.exit(1)
+    else:
+        add_crc32_to_file(sys.argv[1])
+        sys.exit(0)

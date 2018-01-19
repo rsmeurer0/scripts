@@ -1,0 +1,39 @@
+#!/bin/bash
+function umg-connect() {
+    UMG_PW='khomp'
+    if [ "$#" -eq 0 ] ; then
+        UMG_IP=10.10.92.69
+        SSH_PORT=4022
+    else
+        UMG_IP="$1" 
+        SSH_PORT=4022
+    fi
+    sshpass -p $UMG_PW ssh -oStrictHostKeyChecking=no root@$UMG_IP -p $SSH_PORT
+}
+
+function umg-connect-first() {
+    UMG_PW='khomp'
+    if [ "$#" -eq 0 ] ; then
+        UMG_IP=10.10.92.69
+        SSH_PORT=4022
+    else
+        UMG_IP="$1" 
+        SSH_PORT=4022
+    fi
+    ssh -oStrictHostKeyChecking=no root@$UMG_IP -p $SSH_PORT
+}
+function umg-cp-to() {
+    UMG_PW='khomp'
+    if [ "$#" -eq 2 ] ; then
+        UMG_IP=10.10.92.69
+        SSH_PORT=4022
+        FILE="$1"
+        TO_PATH="$2"
+    else
+        UMG_IP="$1" 
+        SSH_PORT=4022
+        FILE="$2"
+        TO_PATH="$3"
+    fi
+    sshpass -p $UMG_PW scp -P $SSH_PORT $FILE root@$UMG_IP:$TO_PATH
+}

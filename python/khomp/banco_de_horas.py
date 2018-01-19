@@ -29,17 +29,18 @@ import math
 
 
 class bcolors:
-    RED   = "\033[1;31m"
-    BLUE  = "\033[1;34m"
-    CYAN  = "\033[1;36m"
+    RED = "\033[1;31m"
+    BLUE = "\033[1;34m"
+    CYAN = "\033[1;36m"
     GREEN = "\033[0;32m"
     YELLOW = "\033[1;33m"
     RESET = "\033[0;0m"
-    BOLD    = "\033[;1m"
+    BOLD = "\033[;1m"
     REVERSE = "\033[;7m"
     B_YELLOW = "\033[0;43m"
     B_BLACK = "\033[0;40m"
     BLACK = "\033[0;30m"
+
 
 def check_work_regular(work_intervals):
     for interval in work_intervals:
@@ -49,12 +50,14 @@ def check_work_regular(work_intervals):
         else:
             return True
 
+
 def check_pause_regular(pause_intervals):
     had_lunch_interval = False
     for interval in pause_intervals:
         if interval >= 60:
             had_lunch_interval = True
     return had_lunch_interval
+
 
 def check_regular(work_intervals, pause_intervals):
     if sum(work_intervals) > 360:
@@ -66,6 +69,7 @@ def check_regular(work_intervals, pause_intervals):
     else:
         return True
 
+
 def get_work_intervals(time_list):
     work_intervals = []
     time_stamps = len(time_list)
@@ -73,21 +77,22 @@ def get_work_intervals(time_list):
     if time_stamps == 0:
         return work_intervals
 
-    elif time_stamps%2 == 0:
+    elif time_stamps % 2 == 0:
         for i in range(0, time_stamps, 2):
             if i < time_stamps:
-                work_intervals.append((time_list[i+1] - time_list[i]).seconds/60)
+                work_intervals.append((time_list[i + 1] - time_list[i]).seconds / 60)
 
-    elif time_stamps%2 == 1:
+    elif time_stamps % 2 == 1:
         for i in range(0, time_stamps, 2):
-            if i+1 < time_stamps:
-                work_intervals.append((time_list[i+1] - time_list[i]).seconds/60)
+            if i + 1 < time_stamps:
+                work_intervals.append((time_list[i + 1] - time_list[i]).seconds / 60)
             else:
                 now = datetime.today().strftime("%H:%M")
                 now = turn_into_datetime(now)
-                work_intervals.append((now - time_list[i]).seconds/60)
+                work_intervals.append((now - time_list[i]).seconds / 60)
 
     return work_intervals
+
 
 def get_pause_intervals(time_list):
     pause_intervals = []
@@ -95,14 +100,14 @@ def get_pause_intervals(time_list):
     time_list = turn_into_datetime(time_list)
     if time_stamps <=2:
         return pause_intervals
-    pauses = math.ceil(time_stamps/2)
+    pauses = math.ceil(time_stamps / 2)
     for i in range(0, pauses, 2):
-        pause_intervals.append((time_list[i+2] - time_list[i+1]).seconds/60)
+        pause_intervals.append((time_list[i + 2] - time_list[i + 1]).seconds / 60)
 
     return pause_intervals
 
-def turn_into_datetime(times):
 
+def turn_into_datetime(times):
     if type(times) is list:
         time_list = []
         for item in times:
@@ -112,7 +117,6 @@ def turn_into_datetime(times):
     else:
         times = datetime.strptime(times, '%H:%M')
         return times
-
 
 
 def get_work_time_today(time_list):
@@ -126,6 +130,7 @@ def get_pause_time_today(time_list):
     pause_minutes_today = sum(pause_intervals)
     return pause_minutes_today
 
+
 def get_extra_hours(overview_table):
     for row in overview_table.splitlines():
         if 'SALDO' in row:
@@ -133,14 +138,16 @@ def get_extra_hours(overview_table):
             return extra_hours
     return "Not Found"
 
+
 def get_list_of_dates(year, month):
     days_in_month = calendar.monthrange(year, month)[1]
-    dates = [date(year, month, day) for day in range(1, days_in_month+1)]
+    dates = [date(year, month, day) for day in range(1, days_in_month + 1)]
     dates_str_list = []
     for item in dates:
         dates_str_list.append(item.strftime("%d/%m/%Y"))
 
     return dates_str_list
+
 
 def login_and_get_info():
     # browser = webdriver.Firefox()
@@ -162,13 +169,11 @@ def login_and_get_info():
     elems = browser.find_elements_by_xpath("//div[@class='col-xs-12 col-sm-9']/dl/dd")
     print(elems[0].text)
 
-
     browser.find_element_by_id('espelho_ponto_icon').click()
 
     time.sleep(5)
 
     elem = browser.find_element_by_id('titulo_mes')
-
 
     tables = browser.find_elements_by_xpath("//tbody")
 
@@ -178,6 +183,7 @@ def login_and_get_info():
     tables = [overview_table, time_table]
     browser.quit()
     return tables
+
 
 def get_time_list(time_table, date_of_interest):
 
@@ -191,14 +197,16 @@ def get_time_list(time_table, date_of_interest):
                 for item in table_list:
                     if item == "Horas" or item == "Feriado:":
                         break
-                    time_list.append(item.replace(",",""))
+                    elif item == "Banco":
+                        break
+                    time_list.append(item.replace(",", ""))
             else:
                 table_list = []
 
     return time_list
 
-def main():
 
+def main():
     curr_year = datetime.today().year
     curr_month = datetime.today().month
     list_of_dates = get_list_of_dates(curr_year, curr_month)
@@ -217,40 +225,36 @@ def main():
         work_time = get_work_time_today(time_list)
         pause_time = get_pause_time_today(time_list)
 
-        work_hours = int(work_time/60)
-        work_minutes = int(work_time%60)
+        work_hours = int(work_time / 60)
+        work_minutes = int(work_time % 60)
 
-        pause_hours = int(pause_time/60)
-        pause_minutes = int(pause_time%60)
+        pause_hours = int(pause_time / 60)
+        pause_minutes = int(pause_time % 60)
 
         work_intervals = get_work_intervals(time_list)
         pause_intervals = get_pause_intervals(time_list)
 
         ok_status = check_regular(work_intervals, pause_intervals)
-        if ok_status == False:
-            ok_status = bcolors.RED + str(ok_status) + bcolors.RESET
-        if ok_status == True:
+        if ok_status:
             ok_status = bcolors.GREEN + str(ok_status) + bcolors.RESET
+        elif ok_status is None:
+            pass
+        elif not ok_status:
+            ok_status = bcolors.RED + str(ok_status) + bcolors.RESET
 
         if day == today_str:
             day = bcolors.YELLOW + day + bcolors.RESET
 
-        print("|  %s  |   %02d:%02dh   |   %02d:%02dh   | %s |"%(day, work_hours, work_minutes, pause_hours, pause_minutes, ok_status))
+        print("|  %s  |   %02d:%02dh   |   %02d:%02dh   | %s |" % (day, work_hours, work_minutes, pause_hours, pause_minutes, ok_status))
 
-        if day ==  today_str:
+        if day == today_str:
             sys.stdout.write(bcolors.RESET)
-
 
     extra_hours = get_extra_hours(overview_table)
 
     print(bcolors.CYAN + "--------------------------------------------------")
     print("|       You have in total %sh extra hours     |" %(extra_hours))
     print("--------------------------------------------------" + bcolors.RESET)
-
-
-
-
-
 
 
 if __name__ == "__main__":

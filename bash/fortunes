@@ -1,0 +1,22 @@
+#!/bin/bash
+
+printf "rbock:\n"
+fortune
+
+printf "\n\nnaka:\n"
+fortune
+
+printf "\n\ngfdamasio:\n"
+fortune
+
+printf "\n\nrafascar:\n"
+fortune
+
+printf "\n\nmeurer:\n"
+fortune
+
+printf "\n\narthur:\n"
+fortune
+
+printf "\n\nzeinacio:\n"
+fortune
